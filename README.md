@@ -1,5 +1,9 @@
 # tietokantasovellus
 tietokantasovellus harjoitustyö
+#välipalautus 3:
+
+Sovellusta ei pysty testaamaan herokussa. Sovelluksessa voi tällä hetkellä luoda visan ja vastata kysymyksiin.
+
 
 
 #Aihe
