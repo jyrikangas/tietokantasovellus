@@ -1,3 +1,4 @@
+from pickle import FALSE, TRUE
 from urllib import request
 from flask import Flask
 from flask import redirect, render_template, request
@@ -46,14 +47,30 @@ def logout():
 def quizs():
     return render_template("quizs.html", quizs=quiz.get_quizs())
 
-@app.route("/play/<int:quiz_id>/<int:qnumber>")
+
+## add try catch for nonexistant question
+@app.route("/play/<int:quiz_id>/<int:qnumber>", methods=["GET", "POST"])
 def playquiz(quiz_id,qnumber):
-    questioncontent = quiz.get_question(quiz_id,qnumber)
+    if request.method == "GET":
+        questioncontent = quiz.get_question(quiz_id,qnumber)
     
-    question = questioncontent[0][0]
-    answers=[questioncontent[0][1],questioncontent[0][2],questioncontent[0][3],questioncontent[0][4]]
-    shuffle(answers)
-    return render_template("quiz.html",question=question, answer1=answers[0],answer2=answers[1], answer3=answers[2], answer4=answers[3])
+        question = questioncontent[0][0]
+        answers=[questioncontent[0][1],questioncontent[0][2],questioncontent[0][3],questioncontent[0][4]]
+        shuffle(answers)
+        return render_template("quiz.html",question=question, answer1=answers[0],answer2=answers[1], answer3=answers[2], answer4=answers[3])
+
+    if request.method == "POST":
+        questioncontent = quiz.get_question(quiz_id,qnumber)
+        correct = FALSE
+        answer = request.form["answer"]
+        if answer == questioncontent[0][1]:
+            correct = TRUE
+        if correct:
+            return render_template("answer.html", evaluation="CORRECT", answer=questioncontent[0][1])
+        else:
+            return render_template("answer.html", evaluation="INCORRECT", answer=questioncontent[0][1])
+
+        
 
 #todo input checking
 @app.route("/addquiz", methods=["GET","POST"])

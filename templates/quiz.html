@@ -1,6 +1,6 @@
 <p>{{question}}</p>
 <br>
-<form action="/" method="POST">
+<form action={{request.path}} method="POST">
 <input type="radio" name="question" value="answer1">{{answer1}}
 <br>
 <input type="radio" name="question" value="answer2">{{answer2}}
