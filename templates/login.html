@@ -1,6 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+
 <form action="/login" method="post">
-    Käyttäjätunnus: <input type="text" name="username" minlength="1" maxlength="20">
-    Salasana: <input type="password" name="password">
-    <input type="submit" value="Kirjaudu sisään">
+    Username: <input type="text" name="username" minlength="1" maxlength="20">
+    Password: <input type="password" name="password">
+    <input type="submit" value="Log in">
 </form>
-<a href="/register"> rekisteröidy </a>
+<a href="/register"> register </a>

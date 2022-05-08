@@ -132,7 +132,7 @@ def quizpage(quiz_id):
             best = result.getBestResultOnQuizByUser(quiz_id, user_id)
             if best:
                 return render_template("quizinfo.html", quizname=quizname, average=average, best="Your best result on this quiz: " + str(int(best)) + "%", quiz_id=quiz_id, commentlist=allcomments)
-        return render_template("quizinfo.html", quizname=quizname, average=average, commentlist=allcomments)
+        return render_template("quizinfo.html", quizname=quizname, average=average, commentlist=allcomments, quiz_id=quiz_id)
 
     if request.method == "POST":
         users.check_csrf()
