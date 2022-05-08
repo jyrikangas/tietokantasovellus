@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Registeration{% endblock %}
-
+{% block content %}
 
 <form action="/register" method="post">
     Käyttäjätunnus: <input type="text" name="username" minlength="1" maxlength="20">
@@ -8,3 +8,4 @@
     <input type="submit" value="Luo käyttäjätunnus">
 </form>
 <a href="/login"> /login</a>
+{% endblock %}

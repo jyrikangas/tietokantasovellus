@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-
+{% block content %}
 
 <title>{{quizname}}</title>
 <a href="/play/{{quiz_id}}"> play </a>
@@ -27,4 +27,4 @@ Comments:
     {{comment.comment}}
     <hr>
 {% endfor%}
-
+{% endblock %}

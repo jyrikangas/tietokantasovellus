@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}{% endblock %}
-
+{% block content %}
 
 Your answer was {{evaluation}}!
 The answer is {{answer}}
@@ -8,3 +8,4 @@ The answer is {{answer}}
 That was the last question! You answered {{rights}} questions correctly, and got {{wrongs}} wrong.
 <br>
 <a href="/quizs" > return to quizs </a>
+{% endblock %}

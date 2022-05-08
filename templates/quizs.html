@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}all quizes{% endblock %}
+{% block content %}
 <ul>
 {% for quiz in quizs %}
 <li><a href="/quiz/{{quiz.id}}">{{quiz.name}}</a>
 {% endfor%}
 </ul>
+{% endblock %}
