@@ -14,14 +14,12 @@ def login(name, password):
         return False
     session["user_id"] = user[1]
     session["user_name"] = name
-    session["user_role"] = user[2]
     session["csrf_token"] = os.urandom(16).hex()
     return True
 
 def logout():
     del session["user_id"]
     del session["user_name"]
-    del session["user_role"]
     
 def register(name, password):
     hash_value = generate_password_hash(password)
@@ -36,7 +34,9 @@ def register(name, password):
 def user_id():
     return session.get("user_id", 0)
 
-
+def getUsersName(user_id):
+    sql = "SELECT name FROM users WHERE user_id=:user_id"
+    return db.session.execute(sql, {"user_id":user_id}).fetchone()[0]
 
 def check_csrf():
     if session["csrf_token"] != request.form["csrf_token"]:

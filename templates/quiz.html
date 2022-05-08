@@ -1,13 +1,14 @@
 <p>{{question}}</p>
 <br>
 <form action={{request.path}} method="POST">
-<input type="radio" name="question" value="answer1">{{answer1}}
+<input type="radio" name="answer" value="{{answer1}}">{{answer1}}
 <br>
-<input type="radio" name="question" value="answer2">{{answer2}}
+<input type="radio" name="answer" value="{{answer2}}">{{answer2}}
 <br>
-<input type="radio" name="question" value="answer3">{{answer3}}
+<input type="radio" name="answer" value={{answer3}}>{{answer3}}
 <br>
-<input type="radio" name="question" value="answer4">{{answer4}}
+<input type="radio" name="answer" value="{{answer4}}">{{answer4}}
 <br>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <input type="submit" value="answer">
 </form>

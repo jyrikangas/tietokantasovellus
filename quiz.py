@@ -15,7 +15,7 @@ def add_quiz(name, questions):
     return quiz_id
 
 def get_questions(quiz_id):
-    sql = "SELECT qnumber, question, answer, wronganswer_1, wronganswer_2, wronganswer_3 FROM quiz WHERE quiz_id=:quiz_id"
+    sql = "SELECT EXISTS qnumber, question, answer, wronganswer_1, wronganswer_2, wronganswer_3 FROM quiz WHERE quiz_id=:quiz_id"
     return db.session.execute(sql, {"quiz_id":quiz_id}).fetchall()
 
 def get_question(quiz_id, qnumber):
@@ -25,3 +25,7 @@ def get_question(quiz_id, qnumber):
 def get_quizs():
     sql = "SELECT * from quizs"
     return db.session.execute(sql).fetchall()
+
+def getQuizName(quiz_id):
+    sql = "SELECT name FROM quizs WHERE id=:quiz_id"
+    return db.session.execute(sql,{"quiz_id":quiz_id}).fetchone()[0]
