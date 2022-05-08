@@ -1,17 +1,17 @@
 
 <form action="/addquiz" method="post">
 
-    <p>visan nimi:<br>
+    <p>quiz name:<br>
     <input type="text" name="name" minlength="1" maxlength="20"></p>
     
-    <p>kysymykset ja vastaukset:<br>
+    <p>questions and answers:<br>
     <textarea name="words" rows="8" cols="40" maxlength="10000">
-    kysymys;vastaus;väärävastaus;väärä2;väärä3
+    question;answer;wronganswer;wrong2;wrong3
     toinenkysymys;toinenvastaus;väärävastaus;väärä2;väärä3
     
     </textarea></p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    <input type="submit" value="Lähetä">
+    <input type="submit" value="Submit">
     
     
     </form>
