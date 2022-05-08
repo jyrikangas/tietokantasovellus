@@ -1,9 +1,12 @@
 # tietokantasovellus
 tietokantasovellus harjoitustyö
 
-# välipalautus 3:
+# Loppupalautus:
 
-Sovellusta pystyy testaamaan herokussa osoitteessa https://rocky-bastion-41480.herokuapp.com. Sovelluksessa voi tällä hetkellä luoda visan ja vastata kysymyksiin.
+Sovellusta pystyy testaamaan herokussa osoitteessa https://rocky-bastion-41480.herokuapp.com.
+
+Sovelluksessa voi tehdä käyttäjän ja kirjautua sisään. Käyttäjät voivat lisätä visoja, pelata visoja, ja kommentoida visoja.
+Kun käyttäjä pelaa visaa, tulokset kirjataan ylös. Tuloksia voi verrata toisten käyttäjien tuloksiin.
 
 
 

@@ -5,7 +5,7 @@
 {{text}}
 <br>
 {% for result in results %}
-<li> <a href="/{{result.user_id}}"> user {{result.user_id}} </a> {{result.rights}} correct / {{result.wrongs}} incorrect on <a href="/{{result.quiz_id}}"> quiz  {{result.quiz_id}} </a> 
+<li> <a href="/user/{{result.user_id}}/results"> user {{result.user_id}} </a> {{result.rights}} correct / {{result.wrongs}} incorrect on <a href="/{{result.quiz_id}}"> quiz  {{result.quiz_id}} </a> 
 {% endfor%}
 </ul>
 {% endblock %}
