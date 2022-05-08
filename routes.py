@@ -73,26 +73,37 @@ def playquiz(quiz_id, qnumber):
         else:
             counters = result.getResult(quiz_id, user_id)
         nextquestioncontent = quiz.get_question(quiz_id, qnumber+1)
+        print(counters)
+        print(counters[0][0])
+        print(counters[0][1])
         if not nextquestioncontent:
-
+            print("nextquestion=none")
             if correct:
                 result.finalResult(quiz_id, user_id, counters, correct)
-                rights = counters[0][0] + 1 
+                rights = counters[0][0]
                 wrongs = counters[0][1]
+                rights = rights + 1
+                print(rights)
+                print(wrongs)
                 return render_template("finished.html", evaluation="CORRECT", answer=questioncontent[0][1], rights=rights, wrongs=wrongs)
             else:
                 result.finalResult(quiz_id, user_id, counters, correct)
                 rights = counters[0][0]
-                wrongs = counters[0][1] + 1 
+                wrongs = counters[0][1]
+                wrongs = wrongs + 1
+                print(rights)
+                print(wrongs)
                 return render_template("finished.html", evaluation="INCORRECT", answer=questioncontent[0][1], rights=rights, wrongs=wrongs)
         else:
             rights = counters[0][0]
             wrongs = counters[0][1]
+            print(rights)
+            print(wrongs)
             if correct:
-                result.addResult(quiz_id, user_id, rights, wrongs, correct)
+                result.addResult(quiz_id, user_id, int(rights), int(wrongs), correct)
                 return render_template("answer.html", evaluation="CORRECT", answer=questioncontent[0][1], quizid=quiz_id, qnum=qnumber+1)
             else:
-                result.addResult(quiz_id, user_id, rights, wrongs, correct)
+                result.addResult(quiz_id, user_id, int(rights), int(wrongs), correct)
                 return render_template("answer.html", evaluation="INCORRECT", answer=questioncontent[0][1], quizid=quiz_id, qnum=qnumber+1)
     return redirect("/")
 

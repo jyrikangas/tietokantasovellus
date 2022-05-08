@@ -14,7 +14,7 @@ Average result for this quiz: {{average}} % correct answers
 <form action="/quiz/{{quiz_id}}" method="post">
 Comment::<br>
 <textarea name="comment" rows="3" cols="40" maxlength="1000"></textarea>
-<p><input type="submit" value="Lähetä">
+<p><input type="submit" value="Send">
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% endif %}

@@ -2,12 +2,18 @@ from db import db
 
 def addResult(quiz_id, user_id, rightCounter, wrongCounter, correct):
     if correct:
-        rights = rightCounter + 1
+        rights = rightCounter
         wrongs = wrongCounter
+        rights = rights+1
     else:
         rights = rightCounter
         wrongs = wrongCounter + 1
         print(quiz_id, user_id, rights, wrongs, correct)
+    if getResult(quiz_id, user_id):
+        sql = "UPDATE results SET rights=:rights, wrongs=:wrongs WHERE quiz_id=:quiz_id AND user_id=:user_id"
+        db.session.execute(sql, {"quiz_id":quiz_id, "user_id":user_id, "rights":rights, "wrongs":wrongs})
+        db.session.commit()
+        return
     sql = """INSERT INTO results (quiz_id, user_id, rights, wrongs) 
     VALUES (:quiz_id, :user_id, :rights, :wrongs)"""
     db.session.execute(sql, {"quiz_id":quiz_id, "user_id":user_id, "rights":rights, "wrongs":wrongs})
@@ -44,8 +50,8 @@ def finalResult(quiz_id, user_id, counters, answer : bool):
     print(quiz_id, user_id, counters, answer)
     print(counters[0][0])
     print(counters[0][1])
-    rights = counters[0][0]
-    wrongs = counters[0][1]
+    rights = int(counters[0][0])
+    wrongs = int(counters[0][1])
     if answer:
         rights = rights + 1
     else:
