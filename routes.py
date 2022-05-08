@@ -30,7 +30,7 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         if not users.register(username, password):
-            return render_template("error.html")
+            return render_template("error.html", message="registration failed")
         return redirect("/login")
     return redirect("/")
 
