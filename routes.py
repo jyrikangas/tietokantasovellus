@@ -130,7 +130,8 @@ def quizpage(quiz_id):
         allcomments = comments.getCommentsByQuiz(quiz_id)
         if user_id:
             best = result.getBestResultOnQuizByUser(quiz_id, user_id)
-            return render_template("quizinfo.html", quizname=quizname, average=average, best="Your best result on this quiz: " + str(int(best)) + "%", quiz_id=quiz_id, commentlist=allcomments)
+            if best:
+                return render_template("quizinfo.html", quizname=quizname, average=average, best="Your best result on this quiz: " + str(int(best)) + "%", quiz_id=quiz_id, commentlist=allcomments)
         return render_template("quizinfo.html", quizname=quizname, average=average, commentlist=allcomments)
 
     if request.method == "POST":
