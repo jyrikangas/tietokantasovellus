@@ -35,7 +35,7 @@ def user_id():
     return session.get("user_id", 0)
 
 def get_users_name(user_id):
-    sql = "SELECT name FROM users WHERE user_id=:user_id"
+    sql = "SELECT name FROM users WHERE id=:user_id"
     return db.session.execute(sql, {"user_id":user_id}).fetchone()[0]
 
 def check_csrf():
