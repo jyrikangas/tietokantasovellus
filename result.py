@@ -27,24 +27,24 @@ def getResult(quiz_id, user_id):
     
     return db.session.execute(sql, {"quiz_id":quiz_id, "user_id":user_id}).fetchall()
 
-def getResultsByUser(user_id):
+def get_results_by_user(user_id):
     sql = "SELECT quiz_id, rights, wrongs, correctPercent FROM resultsStorage WHERE user_id=:user_id"
     return db.session.execute(sql, {"user_id":user_id}).fetchall()
 
-def getResultsByQuiz(quiz_id):
+def get_results_by_quiz(quiz_id):
     sql = "SELECT user_id, rights, wrongs, correctPercent FROM resultsStorage WHERE quiz_id=:quiz_id"
     return db.session.execute(sql, {"quiz_id":quiz_id}).fetchall()
 
-def getAvgScoreByQuiz(quiz_id):
+def get_avg_score_by_quiz(quiz_id):
     sql = "SELECT AVG(correctPercent) FROM resultsStorage WHERE quiz_id = :quiz_id"
     return db.session.execute(sql, {"quiz_id":quiz_id}).fetchone()[0]
 
-def getBestResultOnQuizByUser(quiz_id,user_id):
+def get_best_result_on_quiz_by_user(quiz_id,user_id):
     sql = """SELECT MAX(correctPercent) FROM resultsStorage 
     WHERE quiz_id = :quiz_id AND user_id = :user_id"""
     return db.session.execute(sql, {"quiz_id":quiz_id,"user_id":user_id}).fetchone()[0]
 
-def finalResult(quiz_id, user_id, counters, answer : bool):
+def final_result(quiz_id, user_id, counters, answer : bool):
     ##save result adding 1 to counters, delete old result
     ##check that result works,
     print(quiz_id, user_id, counters, answer)
@@ -57,16 +57,16 @@ def finalResult(quiz_id, user_id, counters, answer : bool):
     else:
         wrongs = wrongs + 1
     
-    correctPercent = int((rights/(rights+wrongs))*100)
+    correct_percent = int((rights/(rights+wrongs))*100)
     
     sql = """INSERT INTO resultsStorage (quiz_id, user_id, rights, wrongs, correctPercent) 
     VALUES (:quiz_id, :user_id, :rights, :wrongs, :correctPercent) RETURNING id"""
     sql2 = "DELETE FROM results WHERE quiz_id= :quiz_id AND user_id= :user_id"
-    result_id = db.session.execute(sql, {"quiz_id":quiz_id, "user_id":user_id, "rights":rights, "wrongs":wrongs, "correctPercent":correctPercent})
+    result_id = db.session.execute(sql, {"quiz_id":quiz_id, "user_id":user_id, "rights":rights, "wrongs":wrongs, "correctPercent":correct_percent})
     db.session.execute(sql2, {"quiz_id":quiz_id, "user_id":user_id})
     db.session.commit()
     return result_id
 
-def resultCountByQuiz(quiz_id):
+def result_count_by_quiz(quiz_id):
     sql = """SELECT COUNT(*) FROM resultStorage WHERE quiz_id = :quiz_id"""
     return db.session.execute(sql, {"quiz_id":quiz_id}).fetchone[0]

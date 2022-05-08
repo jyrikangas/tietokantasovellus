@@ -1,8 +1,8 @@
+from random import shuffle
 from flask import request, redirect, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 from db import db
 from app import app
-from random import shuffle
 import users
 import quiz
 import result
@@ -14,7 +14,8 @@ def index():
 
 @app.route("/login", methods=["get", "post"])
 def login():
-    if request.method == "GET": return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -25,7 +26,8 @@ def login():
 
 @app.route("/register", methods=["get","post"])
 def register():
-    if request.method == "GET": return render_template("register.html")
+    if request.method == "GET":
+        return render_template("register.html")
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -79,7 +81,7 @@ def playquiz(quiz_id, qnumber):
         if not nextquestioncontent:
             print("nextquestion=none")
             if correct:
-                result.finalResult(quiz_id, user_id, counters, correct)
+                result.final_result(quiz_id, user_id, counters, correct)
                 rights = counters[0][0]
                 wrongs = counters[0][1]
                 rights = rights + 1
@@ -87,7 +89,7 @@ def playquiz(quiz_id, qnumber):
                 print(wrongs)
                 return render_template("finished.html", evaluation="CORRECT", answer=questioncontent[0][1], rights=rights, wrongs=wrongs)
             else:
-                result.finalResult(quiz_id, user_id, counters, correct)
+                result.final_result(quiz_id, user_id, counters, correct)
                 rights = counters[0][0]
                 wrongs = counters[0][1]
                 wrongs = wrongs + 1
@@ -122,25 +124,25 @@ def addquiz():
 
 @app.route("/user/<int:user_id>/results")
 def userresults(user_id):
-    userResults = result.getResultsByUser(user_id)
-    userName = users.getUsersName(user_id)
-    return render_template("results.html", text="results from user " + userName, results=userResults)
+    user_results = result.get_results_by_user(user_id)
+    user_name = users.get_users_name(user_id)
+    return render_template("results.html", text="results from user " + user_name, results=user_results)
 
 @app.route("/quiz/<int:quiz_id>/results")
 def quizresults(quiz_id):
-    quizResults = result.getResultsByQuiz(quiz_id)
-    quizName = quiz.getQuizName(quiz_id)
-    return render_template("results.html", text="results from quiz " + quizName, results=quizResults)
+    quiz_results = result.get_results_by_quiz(quiz_id)
+    quiz_name = quiz.get_quiz_name(quiz_id)
+    return render_template("results.html", text="results from quiz " + quiz_name, results=quiz_results)
 
 @app.route("/quiz/<int:quiz_id>", methods=["GET", "POST"])
 def quizpage(quiz_id):
     if request.method == "GET":
         user_id = users.user_id()
-        quizname = quiz.getQuizName(quiz_id)
-        average = result.getAvgScoreByQuiz(quiz_id)
-        allcomments = comments.getCommentsByQuiz(quiz_id)
+        quizname = quiz.get_quiz_name(quiz_id)
+        average = result.get_avg_score_by_quiz(quiz_id)
+        allcomments = comments.get_comments_by_quiz(quiz_id)
         if user_id:
-            best = result.getBestResultOnQuizByUser(quiz_id, user_id)
+            best = result.get_best_result_on_quiz_by_user(quiz_id, user_id)
             if best:
                 return render_template("quizinfo.html", quizname=quizname, average=average, best="Your best result on this quiz: " + str(int(best)) + "%", quiz_id=quiz_id, commentlist=allcomments)
         return render_template("quizinfo.html", quizname=quizname, average=average, commentlist=allcomments, quiz_id=quiz_id)
@@ -149,6 +151,6 @@ def quizpage(quiz_id):
         users.check_csrf()
         user_id = users.user_id()
         text = request.form["comment"]
-        comments.addComment(quiz_id, user_id, text)
+        comments.add_comment(quiz_id, user_id, text)
         return redirect("/quiz/"+str(quiz_id))
     return redirect("/")

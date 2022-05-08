@@ -1,4 +1,4 @@
-from re import S
+
 from db import db
 
 def add_quiz(name, questions):
@@ -30,6 +30,6 @@ def get_quizs():
     sql = "SELECT id, name FROM quizs"
     return db.session.execute(sql).fetchall()
 
-def getQuizName(quiz_id):
+def get_quiz_name(quiz_id):
     sql = "SELECT name FROM quizs WHERE id=:quiz_id"
     return db.session.execute(sql,{"quiz_id":quiz_id}).fetchone()[0]

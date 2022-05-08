@@ -34,7 +34,7 @@ def register(name, password):
 def user_id():
     return session.get("user_id", 0)
 
-def getUsersName(user_id):
+def get_users_name(user_id):
     sql = "SELECT name FROM users WHERE user_id=:user_id"
     return db.session.execute(sql, {"user_id":user_id}).fetchone()[0]
 
