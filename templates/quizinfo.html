@@ -1,0 +1,27 @@
+<title>{{quizname}}</title>
+<a href="/play/{{quiz_id}}"> play </a>
+<br>
+Average result for this quiz: {{average}} % correct answers
+<br>
+{{best}}
+<br>
+
+{% if session.user_id %}
+<h3>Leave a comment</h3>
+<form action="/quiz/{{quiz_id}}" method="post">
+Comment::<br>
+<textarea name="comment" rows="3" cols="40" maxlength="1000"></textarea>
+<p><input type="submit" value="Lähetä">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+{% endif %}
+<br>
+Comments:
+{% for comment in commentlist %}
+<hr>
+<a href="/{{comment.user_id}}"> user {{comment.user_id}} </a> says:
+    <br>
+    {{comment.comment}}
+    <hr>
+{% endfor%}
+

@@ -8,24 +8,35 @@ def addResult(quiz_id, user_id, rightCounter, wrongCounter, correct):
         rights = rightCounter
         wrongs = wrongCounter + 1
         print(quiz_id, user_id, rights, wrongs, correct)
-    sql = "INSERT INTO results (quiz_id, user_id, rights, wrongs) VALUES (:quiz_id, :user_id, :rights, :wrongs)"
+    sql = """INSERT INTO results (quiz_id, user_id, rights, wrongs) 
+    VALUES (:quiz_id, :user_id, :rights, :wrongs)"""
     db.session.execute(sql, {"quiz_id":quiz_id, "user_id":user_id, "rights":rights, "wrongs":wrongs})
     db.session.commit()
     return
 
 def getResult(quiz_id, user_id):
     print(quiz_id, user_id )
-    sql = "SELECT rights, wrongs FROM results WHERE quiz_id=:quiz_id AND user_id=:user_id"
+    sql = """SELECT rights, wrongs FROM results 
+    WHERE quiz_id=:quiz_id AND user_id=:user_id"""
     
     return db.session.execute(sql, {"quiz_id":quiz_id, "user_id":user_id}).fetchall()
 
 def getResultsByUser(user_id):
-    sql = "SELECT quiz_id, rights, wrongs FROM resultsStorage WHERE user_id=:user_id"
+    sql = "SELECT quiz_id, rights, wrongs, correctPercent FROM resultsStorage WHERE user_id=:user_id"
     return db.session.execute(sql, {"user_id":user_id}).fetchall()
 
 def getResultsByQuiz(quiz_id):
-    sql = "SELECT user_id, rights, wrongs FROM resultsStorage WHERE quiz_id=:quiz_id"
+    sql = "SELECT user_id, rights, wrongs, correctPercent FROM resultsStorage WHERE quiz_id=:quiz_id"
     return db.session.execute(sql, {"quiz_id":quiz_id}).fetchall()
+
+def getAvgScoreByQuiz(quiz_id):
+    sql = "SELECT AVG(correctPercent) FROM resultsStorage WHERE quiz_id = :quiz_id"
+    return db.session.execute(sql, {"quiz_id":quiz_id}).fetchone()[0]
+
+def getBestResultOnQuizByUser(quiz_id,user_id):
+    sql = """SELECT MAX(correctPercent) FROM resultsStorage 
+    WHERE quiz_id = :quiz_id AND user_id = :user_id"""
+    return db.session.execute(sql, {"quiz_id":quiz_id,"user_id":user_id}).fetchone()[0]
 
 def finalResult(quiz_id, user_id, counters, answer : bool):
     ##save result adding 1 to counters, delete old result
@@ -39,10 +50,17 @@ def finalResult(quiz_id, user_id, counters, answer : bool):
         rights = rights + 1
     else:
         wrongs = wrongs + 1
-        
-    sql = "INSERT INTO resultsStorage (quiz_id, user_id, rights, wrongs) VALUES (:quiz_id, :user_id, :rights, :wrongs) RETURNING id"
+    
+    correctPercent = int((rights/(rights+wrongs))*100)
+    
+    sql = """INSERT INTO resultsStorage (quiz_id, user_id, rights, wrongs, correctPercent) 
+    VALUES (:quiz_id, :user_id, :rights, :wrongs, :correctPercent) RETURNING id"""
     sql2 = "DELETE FROM results WHERE quiz_id= :quiz_id AND user_id= :user_id"
-    result_id = db.session.execute(sql, {"quiz_id":quiz_id, "user_id":user_id, "rights":rights, "wrongs":wrongs})
+    result_id = db.session.execute(sql, {"quiz_id":quiz_id, "user_id":user_id, "rights":rights, "wrongs":wrongs, "correctPercent":correctPercent})
     db.session.execute(sql2, {"quiz_id":quiz_id, "user_id":user_id})
     db.session.commit()
     return result_id
+
+def resultCountByQuiz(quiz_id):
+    sql = """SELECT COUNT(*) FROM resultStorage WHERE quiz_id = :quiz_id"""
+    return db.session.execute(sql, {"quiz_id":quiz_id}).fetchone[0]

@@ -33,5 +33,13 @@ CREATE TABLE resultsStorage (
     quiz_id INTEGER REFERENCES quizs,
     user_id INTEGER REFERENCES users,
     rights INTEGER,
-    wrongs INTEGER
+    wrongs INTEGER,
+    correctPercent INTEGER
+);
+
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    quiz_id INTEGER REFERENCES quizs,
+    user_id INTEGER REFERENCES users,
+    comment TEXT
 );
